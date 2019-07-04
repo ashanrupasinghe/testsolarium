@@ -32,7 +32,7 @@ class SolariumController extends Controller {
         $client = $this->client;
         $query = $client->createSelect();
         //$query->addFilterQuery(array('key' => 'name', 'query' => 'name:testdoc-1', 'tag' => 'include'));
-        $query->addFilterQuery(array('key' => 'id', 'query' => 'id:cv-3', 'tag' => 'include'));
+        $query->addFilterQuery(array('key' => 'attr_file', 'query' => 'attr_file:*Virtual Reality*', 'tag' => 'include'));
         //$query->addFilterQuery(array('key'=>'degree', 'query'=>'degree:MBO', 'tag'=>'exclude'));
         //Computer Hardware
         //$facets = $query->getFacetSet();
@@ -163,19 +163,21 @@ class SolariumController extends Controller {
         die();
     }
 
-    public function fuck() {
+    public function extractPDF() {
         $client = $this->client;
 
         // get an extract query instance and add settings
         $query = $client->createExtract();
         $query->addFieldMapping('content', 'file');
+        //$query->addFieldMapping('content', 'url');
         //$query->addFieldMapping('content', 'text');
         $query->setUprefix('attr_');
+        //$query->addParam('stream.url',"https://www.dropbox.com/sh/myq4cuwzm8fkdl6/AACVILl0ngd0xuaY-HTXPg01a?dl=0&preview=2014CS024.pdf");
         //__DIR__ => "C:\xampp\htdocs\solarium\app\Http\Controllers"
         //"C:\xampp\htdocs\solarium\public"
         //$query->setFile(public_path(). '\index.php');
         $query->setFile(public_path(). '\cvs\5.pdf');
-        
+        //$query->setFile("https://www.dropbox.com/sh/myq4cuwzm8fkdl6/AACVILl0ngd0xuaY-HTXPg01a?dl=0&preview=2014CS024.pdf");
         $query->setCommit(true);
         $query->setOmitHeader(false);
 // add document
