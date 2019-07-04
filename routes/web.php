@@ -21,3 +21,11 @@ Route::get('/create', 'SolariumController@create');
 Route::get('/delete', 'SolariumController@delete');
 Route::get('/facetfield', 'SolariumController@facetField');
 Route::get('/extractPDF', 'SolariumController@fuck');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
