@@ -20,7 +20,8 @@ Route::get('/search', 'SolariumController@search');
 Route::get('/create', 'SolariumController@create');
 Route::get('/delete', 'SolariumController@delete');
 Route::get('/facetfield', 'SolariumController@facetField');
-Route::get('/extractPDF', 'SolariumController@fuck');
+Route::get('/extractpdf', 'SolariumController@extractPDF');
+Route::get('/upload', 'SolariumController@upload');
 
 Auth::routes();
 

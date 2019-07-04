@@ -9,13 +9,12 @@ class SolariumController extends Controller {
     protected $client;
 
     public function __construct(\Solarium\Client $client) {
-
         //config('solarium')
+		$this->middleware('auth');
         $this->client = new \Solarium\Client(config('solarium'));
     }
 
     public function ping() {
-
         // create a ping query
         $ping = $this->client->createPing();
 
@@ -32,33 +31,15 @@ class SolariumController extends Controller {
         $client = $this->client;
         $query = $client->createSelect();
         //$query->addFilterQuery(array('key' => 'name', 'query' => 'name:testdoc-1', 'tag' => 'include'));
-        $query->addFilterQuery(array('key' => 'attr_file', 'query' => 'attr_file:*Virtual Reality*', 'tag' => 'include'));
+        $query->addFilterQuery(array('key' => 'attr_file', 'query' => 'attr_file:*University of colombo*', 'tag' => 'include'));
         //$query->addFilterQuery(array('key'=>'degree', 'query'=>'degree:MBO', 'tag'=>'exclude'));
         //Computer Hardware
         //$facets = $query->getFacetSet();
         //$facets->createFacetField(array('field'=>'degree', 'exclude'=>'exclude'));
         $resultset = $client->select($query);
-//dd($resultset);
-        // display the total number of documents found by solr
-        echo 'NumFound: ' . $resultset->getNumFound();
-
-        // show documents using the resultset iterator
-        foreach ($resultset as $document) {
-
-            echo '<hr/><table>';
-
-            // the documents are also iterable, to get all fields
-            foreach ($document as $field => $value) {
-                // this converts multivalue fields to a comma-separated string
-                if (is_array($value)) {
-                    $value = implode(', ', $value);
-                }
-
-                echo '<tr><th>' . $field . '</th><td>' . $value . '</td></tr>';
-            }
-
-            echo '</table>';
-        }
+		$data['resultset']=$resultset;
+		return view('cv.result',$data);
+		
     }
 
     public function create() {
@@ -183,6 +164,7 @@ class SolariumController extends Controller {
 // add document
         $doc = $query->createDocument();
         $doc->id = 'cv-5';
+		$doc->file_path = '/cvs/5.pdf';
         $doc->some = 'more fields';
         $query->setDocument($doc);
 // this executes the query and returns the result
@@ -215,5 +197,8 @@ class SolariumController extends Controller {
           $client->executeRequest($request);
          */
     }
+	public function upload(){
+		return view('cv.upload');
+	}
 
 }
